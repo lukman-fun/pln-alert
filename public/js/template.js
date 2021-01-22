@@ -23,8 +23,8 @@ $(document).ready(()=>{
 
 
     //Socket
-    const socket = io.connect('http://localhost:3030/', {path: '/socket.io'});
-
+    // const socket = io.connect('http://localhost:3030/', {path: '/socket.io'});
+    const socket = io();
     socket.on('msg',(msg)=>{
         $('#logs').append($('<li class="font-bold">').text(msg));
     });
