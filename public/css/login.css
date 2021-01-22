@@ -1,0 +1,48 @@
+.w-full{
+    min-width: 100vh;
+    width: 100vh;
+}
+
+.h-full{
+    min-height: 100vh;
+    height: 100vh;
+}
+
+.h-full-login{
+    min-height: 100%;
+    height: 100%;
+}
+
+
+.title-pln{
+    display: flex;
+    font-size: 50px; 
+    font-weight: bold;  
+    justify-content: center;
+}
+
+.sub-title-pln{
+    display: flex;
+    font-size: 15px; 
+    font-weight: bold; 
+    margin-top: -30px;
+    justify-content: center;
+}
+
+@media (min-width: 768px){
+    .h-full-login{
+        min-height: 100vh;
+        height: 100vh;
+    }
+
+    .title-pln{
+        font-size: 100px; 
+        justify-content: left;
+    }
+    
+    .sub-title-pln{
+        font-size: 30px; 
+        margin-top: -50px;
+        justify-content: left;
+    }
+}

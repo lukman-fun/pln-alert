@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="app">
+        <p>Whastapp Api</p>
+        <p>By Lukman Hakim</p>
+        <img src="" alt="Qr Code" id="qrcode">
+        <p>Logs :</p>
+        <ul class="logs"></ul>
+    </div>
+
+    <script src="assets/js/jquery.min.js" type="text/javascript"></script>?
+    <script src="assets/js/socket.io.min.js" type="text/javascript"></script>
+    <script>
+        $(document).ready(()=>{
+            const socket = io.connect('http://localhost:3030/', {path: '/socket.io'});
+
+            socket.on('msg',(msg)=>{
+                $('.logs').append($('<li>').text(msg));
+            });
+
+            $('#qrcode').hide();
+            socket.on('qr',(src)=>{
+                $('#qrcode').attr('src',src);
+                $('#qrcode').show();
+            });
+
+            socket.on('ready-wa',(sts)=>{
+                if(sts==true){
+                    $('#qrcode').hide();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

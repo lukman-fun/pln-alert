@@ -1,0 +1,35 @@
+{
+  "name": "pln-alert",
+  "version": "1.0.0",
+  "description": "Website Pln Alert",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind:css": "tailwind build public/assets/css/tailwindcss/tailwind.css -o public/assets/css/tailwindcss/style.css"
+  },
+  "keywords": [
+    "PLN",
+    "node.js"
+  ],
+  "author": "PLN",
+  "license": "MIT",
+  "dependencies": {
+    "autoprefixer": "^10.2.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
+    "exceljs": "^4.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "hbs": "^4.1.1",
+    "http": "0.0.1-security",
+    "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "node-cron": "^2.0.3",
+    "postcss": "^8.2.4",
+    "qrcode": "^1.4.4",
+    "socket.io": "^3.0.5",
+    "tailwindcss": "^2.0.2",
+    "whatsapp-web.js": "^1.12.0"
+  }
+}

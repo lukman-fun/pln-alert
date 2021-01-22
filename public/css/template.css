@@ -1,0 +1,51 @@
+.sidebar{
+    display: none;
+}
+
+.bg-based{
+    background-color: #0FC5E1;
+}
+
+.bg-second{
+    background-color: #0DA5BD;
+}
+
+.bg-grad-based {
+    background-image: linear-gradient(#0FC5E1, #0DA5BD);
+}
+
+.active{
+    background-color: white;
+    color: black;
+}
+
+.flex-2{
+    flex: 1.8;
+}
+
+.flex-8{
+    flex: 8.2;
+}
+
+.line-h-nav{
+    height: 2px;
+}
+
+.divide-line{
+    display: block;
+    height: 2px;
+    background-color: white;
+    opacity: 0.5;
+}
+
+/* indicator */
+.ind{
+    border-radius: 50%; 
+    padding: 0px 10px;
+}
+
+@media(min-width: 768px){
+    .sidebar{
+        display: block;
+    }
+}
