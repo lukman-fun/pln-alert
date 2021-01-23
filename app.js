@@ -287,10 +287,6 @@ app.get("/Whatsapp/logout", (req, res)=>{
 // });
 
 
-// app.get('/login',(req, res)=>{
-//     res.render("login");
-// });
-
 
 server.listen(process.env.PORT || 3030,()=>{
     console.log('connect http://localhost:3030');
