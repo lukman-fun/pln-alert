@@ -253,38 +253,38 @@ app.get("/Whatsapp/logout", (req, res)=>{
     }
 });
 
-app.get("/excel", (req, res)=>{
-    let workbook =new excel.Workbook();
-    let worksheet =workbook.addWorksheet("Node Excel");
-    worksheet.columns=[
-        {header:"Title", key:"title", width:10},
-        {header:"Content", key:"content", width:25},
-        {header:"Deskripsi", key:"deskripsi", width:25},
-    ];
+// app.get("/excel", (req, res)=>{
+//     let workbook =new excel.Workbook();
+//     let worksheet =workbook.addWorksheet("Node Excel");
+//     worksheet.columns=[
+//         {header:"Title", key:"title", width:10},
+//         {header:"Content", key:"content", width:25},
+//         {header:"Deskripsi", key:"deskripsi", width:25},
+//     ];
 
-    worksheet.addRows([
-        {title: "Berita", content: "Hai1", deskripsi: "kduudgusgdodoidoiga"},
-        {title: "Berita", content: "Hai2", deskripsi: "lnlan"},
-        {title: "Berita", content: "Hai3", deskripsi: "kduudgusgdodjsdbboidoiga"},
-        {title: "Berita", content: "Hai4", deskripsi: "qeeqeqeqe"},
-        {title: "Berita", content: "Hai5", deskripsi: "uciuagiua"},
-        {title: "Berita", content: "Hai6", deskripsi: "bcabuibdiuw"},
-    ]);
+//     worksheet.addRows([
+//         {title: "Berita", content: "Hai1", deskripsi: "kduudgusgdodoidoiga"},
+//         {title: "Berita", content: "Hai2", deskripsi: "lnlan"},
+//         {title: "Berita", content: "Hai3", deskripsi: "kduudgusgdodjsdbboidoiga"},
+//         {title: "Berita", content: "Hai4", deskripsi: "qeeqeqeqe"},
+//         {title: "Berita", content: "Hai5", deskripsi: "uciuagiua"},
+//         {title: "Berita", content: "Hai6", deskripsi: "bcabuibdiuw"},
+//     ]);
 
-    res.setHeader(
-        "Content-Type",
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-      );
-      res.setHeader(
-        "Content-Disposition",
-        "attachment; filename=" + "tutorials.xlsx"
-      );
+//     res.setHeader(
+//         "Content-Type",
+//         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+//       );
+//       res.setHeader(
+//         "Content-Disposition",
+//         "attachment; filename=" + "tutorials.xlsx"
+//       );
     
-      return workbook.xlsx.write(res).then(function () {
-        res.status(200).end();
-        console.log("Berhasil");
-      });
-});
+//       return workbook.xlsx.write(res).then(function () {
+//         res.status(200).end();
+//         console.log("Berhasil");
+//       });
+// });
 
 
 // app.get('/login',(req, res)=>{
