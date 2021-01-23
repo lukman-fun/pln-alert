@@ -5,6 +5,7 @@ const jadwal_laporan = require("../models/JadwalLaporan");
 const jenis_laporan = require("../models/JenisLaporan");
 const unit_layanan = require("../models/UnitLayanan");
 const moment = require("moment");
+const excel = require("exceljs");
 
 module.exports = {
     index: (req, res)=>{
@@ -108,6 +109,54 @@ module.exports = {
             await model.close(req.con, req.params.id);
             await model.delete_jadwal(req.con, req.params.id);
             res.redirect("/Monitoring_Laporan");
+        })();
+    },
+
+    laporan_to_excel: (req, res)=>{
+        (async()=>{
+            const namafile=req.params.nama+" "+moment().format("YYYYMMMDD HHmmss");
+            const alldata=await model.get(req.con, req.params.nama.toLowerCase()=="monitoring_laporan" ? "open" : "close");
+            let workbook =new excel.Workbook();
+            let worksheet =workbook.addWorksheet(namafile);
+            worksheet.columns=[
+                {header:"UNIT LAYANAN", key:"unit_layanan", width:30},
+                {header:"WAKTU LAPORAN", key:"create_at", width:30},
+                {header:"NAMA PELANGGAN", key:"nama_pelanggan", width:30},
+                {header:"NO. HANDPHONE", key:"nomor_handphone", width:30},
+                {header:"JENIS LAPORAN", key:"jenis_laporan", width:30},
+                {header:"RECOVERY TIME", key:"update_at", width:30},
+                {header:"STATUS", key:"status", width:30}
+            ];
+
+            // worksheet.addRows([
+            //     {title: "Berita", content: "Hai1", deskripsi: "kduudgusgdodoidoiga"},
+            //     {title: "Berita", content: "Hai2", deskripsi: "lnlan"},
+            //     {title: "Berita", content: "Hai3", deskripsi: "kduudgusgdodjsdbboidoiga"},
+            //     {title: "Berita", content: "Hai4", deskripsi: "qeeqeqeqe"},
+            //     {title: "Berita", content: "Hai5", deskripsi: "uciuagiua"},
+            //     {title: "Berita", content: "Hai6", deskripsi: "bcabuibdiuw"},
+            // ]);
+            const levelWaktu=["OPEN < 30 menit", "OPEN > 30 menit", "OPEN > 45 menit", "OPEN > 60 menit", "CLOSE"];
+            let newdata=[];
+            await alldata.forEach((item, index)=>{
+                item.status=levelWaktu[item.status=="200" ? 4 : item.status];
+                newdata[index]=item;
+            });
+            worksheet.addRows(newdata);
+
+            res.setHeader(
+                "Content-Type",
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            );
+            res.setHeader(
+                "Content-Disposition",
+                "attachment; filename="+namafile+".xlsx"
+            );
+            
+            return workbook.xlsx.write(res).then(function () {
+                res.status(200).end();
+                console.log("Berhasil");
+            });
         })();
     }
     

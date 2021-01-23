@@ -42,6 +42,13 @@ hbs.registerHelper("wa_sesi",()=>{
         return false;
     }
 });
+hbs.registerHelper("valid_length",(value)=>{
+    if (value>0) {
+        return true;
+    }else{
+        return false;
+    }
+});
 
 // Uses
 app.use('/assets',express.static(__dirname+'/public'));
