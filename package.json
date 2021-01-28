@@ -24,6 +24,7 @@
     "hbs": "^4.1.1",
     "http": "0.0.1-security",
     "moment": "^2.29.1",
+    "moment-timezone": "^0.5.32",
     "mysql": "^2.18.1",
     "node-cron": "^2.0.3",
     "postcss": "^8.2.4",

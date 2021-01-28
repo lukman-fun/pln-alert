@@ -7,6 +7,8 @@ const path = require('path');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const moment=require('moment');
+require("moment-timezone");
+moment.tz.setDefault("Asia/Jayapura");
 // const methodOverride = require("method-override");
 const db = require('./config/db.js');
 const fs = require('fs');
@@ -27,7 +29,7 @@ const session = require("express-session");
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine', 'hbs');
 hbs.registerHelper("datetime", (datetime, format)=>{
-    return moment(datetime).format(format);
+    return moment(datetime).tz("Asia/Jakarta").format(format);
 });
 hbs.registerHelper("ind", (value, same)=>{
     return value==same;
@@ -169,25 +171,25 @@ io.on('connection',(socket)=>{
         
                         const terdaftar = await client.isRegisteredUser(number);
                         if(!terdaftar){
-                            return res.status(404).json({
-                                status: 404,
-                                data: "The nummber not registered"
-                            });
-                            console.log("Nomor Tidak Terdaftar");
+                            // return res.status(404).json({
+                            //     status: 404,
+                            //     data: "The nummber not registered"
+                            // });
+                            return console.log("Nomor Tidak Terdaftar");
                         }
         
                         client.sendMessage(number, msg).then(response=>{
-                            res.status(200).json({
-                                status: 200,
-                                data: response
-                            });
-                            console.log("Berhasil");
+                            // res.status(200).json({
+                            //     status: 200,
+                            //     data: response
+                            // });
+                            console.log("Berhasil : \n"+JSON.stringify(response));
                         }).catch(err=>{
-                            res.status(404).json({
-                                status: 404,
-                                data: err
-                            });
-                            console.log("Gagal");
+                            // res.status(404).json({
+                            //     status: 404,
+                            //     data: err
+                            // });
+                            console.log("Gagal : \n"+JSON.stringify(err));
                         });
                     });
                 }catch(err) {

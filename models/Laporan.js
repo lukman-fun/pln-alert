@@ -19,8 +19,7 @@ module.exports = {
 
     store: (con, data)=>{
         return new Promise((resolve, reject)=>{
-            const date=require("../library/waktu");
-            con.query(`INSERT INTO ${table}(nama_pelanggan, alamat_pelanggan, nomor_handphone, unit_layanan, jenis_laporan, create_at, update_at) VALUES('${data.nama_pelanggan}', '${data.alamat_pelanggan}', '${data.nomor_handphone}', '${data.unit_layanan}', '${data.jenis_laporan}', '${date.date_time}', '${date.date_time}')`, (err, res)=>{
+            con.query(`INSERT INTO ${table}(nama_pelanggan, alamat_pelanggan, nomor_handphone, unit_layanan, jenis_laporan, create_at, update_at) VALUES('${data.nama_pelanggan}', '${data.alamat_pelanggan}', '${data.nomor_handphone}', '${data.unit_layanan}', '${data.jenis_laporan}', '${data.mydate}', '${data.mydate}')`, (err, res)=>{
                 if(err) reject(err);
                 resolve(res.insertId);
             });
