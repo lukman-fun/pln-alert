@@ -34,8 +34,7 @@ module.exports = {
     store: (req, res)=>{
         (async()=>{
             try {
-                // req.body.waktu_laporan=moment().tz("Asia/Jayapura").format("YYYY-MM-DD HH:mm:ss");
-                req.body.mydate=moment().format("YYYY-MM-DD HH:mm:ss");
+                req.body.waktu_laporan=moment().format("YYYY-MM-DD HH:mm:ss");
                 const id=await model.store(req.con, req.body);
                 const jadwal = [
                     {
