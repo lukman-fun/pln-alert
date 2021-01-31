@@ -29,7 +29,7 @@ const session = require("express-session");
 app.set('views',path.join(__dirname,'views'));
 app.set('view engine', 'hbs');
 hbs.registerHelper("datetime", (datetime, format)=>{
-    return moment(datetime).tz("Asia/Jakarta").format(format);
+    return moment(datetime).format(format);
 });
 hbs.registerHelper("ind", (value, same)=>{
     return value==same;
