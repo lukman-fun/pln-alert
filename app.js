@@ -161,6 +161,7 @@ io.on('connection',(socket)=>{
                     const d = await model.getJadwal(db);
                     d.forEach(async (item, index)=>{
                         const levelWaktu=["30 menit", "45 menit", "60 menit"];
+                        const upWaktu=["00:30:00", "00:45:00", "01:00:00"];
                         const number = numberToWa(item.nomor_handphone);
                         const msg = "Issue : 1 Pelanggan "+item.jenis_laporan+" selama lebih dari "+levelWaktu[item.level-1]+
                         "\nULP : "+item.unit_layanan+
@@ -184,8 +185,9 @@ io.on('connection',(socket)=>{
                             //     data: response
                             // });
                             console.log("Berhasil : \n"+JSON.stringify(response));
-                            await model.updateJadwal(db, item.id_jadwal_laporan);
-                            await model.updateLaporan(db, item.id_laporan, item.level);
+                            model.updateJadwal(db, item.id_jadwal_laporan);
+                            model.updateLaporan(db, item.id_laporan, item.level, upWaktu[item.level-1]);
+                            // model.updateLaporan(db, item.id_laporan, item.level);
                         }).catch(err=>{
                             // res.status(404).json({
                             //     status: 404,
