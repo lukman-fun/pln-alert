@@ -165,8 +165,8 @@ io.on('connection',(socket)=>{
                         const msg = "Issue : 1 Pelanggan "+item.jenis_laporan+" selama lebih dari "+levelWaktu[item.level-1]+
                         "\nULP : "+item.unit_layanan+
                         "\nUP3 : UP3 Timika";
-                        await model.updateJadwal(db, item.id_jadwal_laporan);
-                        await model.updateLaporan(db, item.id_laporan, item.level);
+                        // await model.updateJadwal(db, item.id_jadwal_laporan);
+                        // await model.updateLaporan(db, item.id_laporan, item.level);
                         
         
                         const terdaftar = await client.isRegisteredUser(number);
@@ -178,12 +178,14 @@ io.on('connection',(socket)=>{
                             return console.log("Nomor Tidak Terdaftar");
                         }
         
-                        client.sendMessage(number, msg).then(response=>{
+                        await client.sendMessage(number, msg).then(response=>{
                             // res.status(200).json({
                             //     status: 200,
                             //     data: response
                             // });
                             console.log("Berhasil : \n"+JSON.stringify(response));
+                            await model.updateJadwal(db, item.id_jadwal_laporan);
+                            await model.updateLaporan(db, item.id_laporan, item.level);
                         }).catch(err=>{
                             // res.status(404).json({
                             //     status: 404,
