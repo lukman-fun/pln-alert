@@ -19,14 +19,9 @@ module.exports = {
         });
     },
 
-    updateLaporan: (con, id, level, recovery)=>{
+    updateLaporan: (con, id, level)=>{
         return new Promise((resolve, reject)=>{
-            // con.query(`UPDATE laporan SET status='${level}', update_at='${moment().format("YYYY-MM-DD HH:mm:ss")}' WHERE id_laporan='${id}'`, (err, res)=>{
-            //     if(err) reject(err);
-            //     resolve(res);
-            // });
-            const upRec=moment().format("YYYY-MM-DD")+" "+recovery;
-            con.query(`UPDATE laporan SET status='${level}', update_at='${upRec}' WHERE id_laporan='${id}'`, (err, res)=>{
+            con.query(`UPDATE laporan SET status='${level}', update_at='${moment().format("YYYY-MM-DD HH:mm:ss")}' WHERE id_laporan='${id}'`, (err, res)=>{
                 if(err) reject(err);
                 resolve(res);
             });

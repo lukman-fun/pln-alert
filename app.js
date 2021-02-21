@@ -14,7 +14,7 @@ const db = require('./config/db.js');
 const fs = require('fs');
 const cron = require("node-cron");
 const { numberToWa } = require("./library/wa-number");
-const excel = require("exceljs");
+// const excel = require("exceljs");z
 
 const app = express();
 const server = http.createServer(app);
@@ -154,52 +154,49 @@ io.on('connection',(socket)=>{
         // console.log('Client is ready!');
         socket.emit('msg','⦿ Whatsapp Ready');
         socket.emit('status','1');
-        cron.schedule("* * * * *", ()=>{
-            (async()=>{
-                try {
-                    const model = require("./models/CronLaporan");
-                    const d = await model.getJadwal(db);
-                    d.forEach(async (item, index)=>{
-                        const levelWaktu=["30 menit", "45 menit", "60 menit"];
-                        const upWaktu=["00:30:00", "00:45:00", "01:00:00"];
-                        const number = numberToWa(item.nomor_handphone);
-                        const msg = "Issue : 1 Pelanggan "+item.jenis_laporan+" selama lebih dari "+levelWaktu[item.level-1]+
-                        "\nULP : "+item.unit_layanan+
-                        "\nUP3 : UP3 Timika";
-                        // await model.updateJadwal(db, item.id_jadwal_laporan);
-                        // await model.updateLaporan(db, item.id_laporan, item.level);
-                        
-        
-                        const terdaftar = await client.isRegisteredUser(number);
-                        if(!terdaftar){
-                            // return res.status(404).json({
-                            //     status: 404,
-                            //     data: "The nummber not registered"
-                            // });
-                            return console.log("Nomor Tidak Terdaftar");
-                        }
-        
-                        await client.sendMessage(number, msg).then(response=>{
-                            // res.status(200).json({
-                            //     status: 200,
-                            //     data: response
-                            // });
-                            console.log("Berhasil : \n"+JSON.stringify(response));
-                            model.updateJadwal(db, item.id_jadwal_laporan);
-                            model.updateLaporan(db, item.id_laporan, item.level, upWaktu[item.level-1]);
-                            // model.updateLaporan(db, item.id_laporan, item.level);
-                        }).catch(err=>{
-                            // res.status(404).json({
-                            //     status: 404,
-                            //     data: err
-                            // });
-                            console.log("Gagal : \n"+JSON.stringify(err));
-                        });
+        cron.schedule("* * * * *", async()=>{
+            try {
+                const model = require("./models/CronLaporan");
+                const d = await model.getJadwal(db);
+                console.log(moment().format("YYYY-MM-DD HH:mm:ss")+"\n"+JSON.stringify(d));
+                await d.forEach(async (item, index)=>{
+                    const levelWaktu=["30 menit", "45 menit", "60 menit"];
+                    const number = numberToWa(item.nomor_handphone);
+                    const msg = "Issue : 1 Pelanggan "+item.jenis_laporan+" selama lebih dari "+levelWaktu[item.level-1]+
+                    "\nULP : "+item.unit_layanan+
+                    "\nUP3 : UP3 Timika";
+                    // await model.updateJadwal(db, item.id_jadwal_laporan);
+                    // await model.updateLaporan(db, item.id_laporan, item.level);
+                    
+    
+                    const terdaftar = await client.isRegisteredUser(number);
+                    if(!terdaftar){
+                        // return res.status(404).json({
+                        //     status: 404,
+                        //     data: "The nummber not registered"
+                        // });
+                        return console.log("Nomor Tidak Terdaftar");
+                    }
+    
+                    await client.sendMessage(number, msg).then(response=>{
+                        // res.status(200).json({
+                        //     status: 200,
+                        //     data: response
+                        // });
+                        console.log("Berhasil : \n"+JSON.stringify(response));
+                        model.updateJadwal(db, item.id_jadwal_laporan);
+                        model.updateLaporan(db, item.id_laporan, item.level);
+                    }).catch(err=>{
+                        // res.status(404).json({
+                        //     status: 404,
+                        //     data: err
+                        // });
+                        console.log("Gagal : \n"+JSON.stringify(err));
                     });
-                }catch(err) {
-                    console.log(err);
-                }
-            })();
+                });
+            }catch(err) {
+                console.log(err);
+            }
         });
     });
 
