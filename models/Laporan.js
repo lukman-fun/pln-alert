@@ -19,7 +19,8 @@ module.exports = {
 
     store: (con, data)=>{
         return new Promise((resolve, reject)=>{
-            con.query(`INSERT INTO ${table}(nama_pelanggan, alamat_pelanggan, nomor_handphone, unit_layanan, jenis_laporan, create_at, update_at) VALUES('${data.nama_pelanggan}', '${data.alamat_pelanggan}', '${data.nomor_handphone}', '${data.unit_layanan}', '${data.jenis_laporan}', '${data.waktu_laporan}', '${data.waktu_laporan}')`, (err, res)=>{
+            const resRec=data.waktu_laporan.split(" ")[0]+" 00:00:00"
+            con.query(`INSERT INTO ${table}(nama_pelanggan, alamat_pelanggan, nomor_handphone, unit_layanan, jenis_laporan, create_at, update_at) VALUES('${data.nama_pelanggan}', '${data.alamat_pelanggan}', '${data.nomor_handphone}', '${data.unit_layanan}', '${data.jenis_laporan}', '${data.waktu_laporan}', '${resRec}')`, (err, res)=>{
                 if(err) reject(err);
                 resolve(res.insertId);
             });
@@ -28,11 +29,15 @@ module.exports = {
 
     close: (con, id)=>{ 
         return new Promise((resolve, reject)=>{
-            const date=require("../library/waktu");
-            con.query(`UPDATE laporan SET update_at='${date.date_time}', status='200' WHERE id_laporan='${id}'`, (err, res)=>{
+            con.query(`UPDATE laporan SET status='200' WHERE id_laporan='${id}'`, (err, res)=>{
                 if(err) reject(err);
                 resolve(res);
             });
+            // const date=require("../library/waktu");
+            // con.query(`UPDATE laporan SET update_at='${date.date_time}', status='200' WHERE id_laporan='${id}'`, (err, res)=>{
+            //     if(err) reject(err);
+            //     resolve(res);
+            // });
         });
     },
 

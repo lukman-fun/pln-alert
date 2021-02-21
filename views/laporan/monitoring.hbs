@@ -98,11 +98,11 @@
               <div class="flex border-black text-center text-sm text-black">
                 <div class="py-2 w-10 border-r border-b border-l border-gray-600" style="min-width: 2.5rem;">{{urut @index}}</div>
                 <div class="py-2 w-32 border-r border-b border-gray-600" style="min-width: 8rem;">{{unit_layanan}}</div>
-                <div class="py-2 w-44 border-r border-b border-gray-600" style="min-width: 11rem;">{{datetime create_at "YYYY-MM-DD HH:mm:ss"}}</div>
+                <div class="py-2 w-44 border-r border-b border-gray-600" style="min-width: 11rem;">{{create_at}}</div>
                 <div class="py-2 w-52 border-r border-b border-gray-600" style="min-width: 13rem;">{{nama_pelanggan}}</div>
                 <div class="py-2 w-40 border-r border-b border-gray-600" style="min-width: 10rem;">{{nomor_handphone}}</div>
                 <div class="py-2 w-52 border-r border-b border-gray-600" style="min-width: 13rem;">{{jenis_laporan}}</div>
-                <div class="py-2 w-44 border-r border-b border-gray-600" style="min-width: 11rem;">{{datetime update_at "HH:mm:ss"}}</div>
+                <div class="py-2 w-44 border-r border-b border-gray-600" style="min-width: 11rem;">{{only_time update_at}}</div>
                 <div class="py-2 w-10 border-r border-b border-gray-600"style="min-width: 2.5rem;">
                   {{#if (ind 0 status)}}
                   <a onclick="return confirm('Apakah Anda Yakin Laporan Ini Sudah Selesai?')" href="{{../base_url}}Laporan_Close/{{id_laporan}}" class="ind border border-green-500"></a>

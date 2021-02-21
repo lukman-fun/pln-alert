@@ -31,6 +31,9 @@ app.set('view engine', 'hbs');
 hbs.registerHelper("datetime", (datetime, format)=>{
     return moment(datetime).format(format);
 });
+hbs.registerHelper("only_time", (datetime)=>{
+    return datetime.split(" ")[1];
+});
 hbs.registerHelper("ind", (value, same)=>{
     return value==same;
 });
@@ -124,11 +127,11 @@ client.on('message', msg => {
 });
 
 client.initialize();
-io.on('connection',(socket)=>{
+io.on('connection',async(socket)=>{
     socket.emit('msg','⦿ Connecting...');
     socket.emit('status','0');
 
-    client.on('qr', (qr) => {
+    await client.on('qr', (qr) => {
         // Generate and scan this code with your phone
         // console.log('QR RECEIVED', qr);
         qrcode.toDataURL(qr,(err, url)=>{
@@ -138,7 +141,7 @@ io.on('connection',(socket)=>{
         });
     });
 
-    client.on('authenticated', (session) => {
+    await client.on('authenticated', (session) => {
         // console.log('AUTHENTICATED', session);
         console.log(session);
         socket.emit('msg','⦿ Whatsapp Is Auth');
@@ -150,11 +153,11 @@ io.on('connection',(socket)=>{
         });
     });
 
-    client.on('ready', () => {
+    await client.on('ready', async() => {
         // console.log('Client is ready!');
         socket.emit('msg','⦿ Whatsapp Ready');
         socket.emit('status','1');
-        cron.schedule("* * * * *", async()=>{
+        await cron.schedule("* * * * *", async()=>{
             try {
                 const model = require("./models/CronLaporan");
                 const d = await model.getJadwal(db);
@@ -200,12 +203,12 @@ io.on('connection',(socket)=>{
         });
     });
 
-    client.on('auth_failure', function(session) {
+    await client.on('auth_failure', function(session) {
         socket.emit('msg', '⦿ Auth failure, restarting...');
         socket.emit('status','0');
       });
     
-    client.on('disconnected', (reason) => {
+    await client.on('disconnected', (reason) => {
     socket.emit('msg', '⦿ Whatsapp is disconnected!');
     socket.emit('status','0');
     fs.unlinkSync(SESSION_FILE_PATH, function(err) {

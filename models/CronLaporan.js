@@ -21,10 +21,16 @@ module.exports = {
 
     updateLaporan: (con, id, level)=>{
         return new Promise((resolve, reject)=>{
-            con.query(`UPDATE laporan SET status='${level}', update_at='${moment().format("YYYY-MM-DD HH:mm:ss")}' WHERE id_laporan='${id}'`, (err, res)=>{
+            const upRec=["00:30:00", "00:45:00", "01:00:00"];
+            const resRec=moment().format("YYYY-MM-DD")+" "+upRec[level-1];
+            con.query(`UPDATE laporan SET status='${level}', update_at='${resRec}' WHERE id_laporan='${id}'`, (err, res)=>{
                 if(err) reject(err);
                 resolve(res);
             });
+            // con.query(`UPDATE laporan SET status='${level}', update_at='${moment().format("YYYY-MM-DD HH:mm:ss")}' WHERE id_laporan='${id}'`, (err, res)=>{
+            //     if(err) reject(err);
+            //     resolve(res);
+            // });
         });
     }
 }
