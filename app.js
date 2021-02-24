@@ -32,6 +32,13 @@ hbs.registerHelper("datetime", (datetime, format)=>{
     return moment(datetime).format(format);
 });
 hbs.registerHelper("only_time", (datetime)=>{
+
+    // const time=datetime.split(" ")[1].split(":");
+    // const mulai=0;
+    // setInterval(()=>{
+        // return moment().hour(time[0]).minute(time[1]).hour(time[2]++).format("HH:mm:ss");
+    //     return "a";
+    // }, 1000);
     return datetime.split(" ")[1];
 });
 hbs.registerHelper("ind", (value, same)=>{
@@ -178,7 +185,7 @@ io.on('connection',async(socket)=>{
                         //     status: 404,
                         //     data: "The nummber not registered"
                         // });
-                        return console.log("Nomor Tidak Terdaftar");
+                        return await console.log("Nomor Tidak Terdaftar");
                     }
     
                     await client.sendMessage(number, msg).then(response=>{

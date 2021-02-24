@@ -85,6 +85,35 @@ module.exports = {
         }
     },
 
+    get_mon: async(req, res)=>{
+        try{
+            const alldata=await model.get(req.con, "open");
+            return res.status(202).json(alldata)
+        }catch(err){
+            console.log(err);
+        }
+    },
+
+    up_mon: async(req, res)=>{
+        try{
+            req.con.query(`UPDATE laporan SET update_at='${req.body.rectime}' WHERE id_laporan='${req.params.id}' `, (err1, resp1)=>{
+                if(err1){
+                    return res.status(404).json(err1)
+                }else{
+                    req.con.query(`SELECT * FROM laporan WHERE id_laporan='${req.params.id}'`, (err2, resp2)=>{
+                        if(err2){
+                            return res.status(404).json(err2)
+                        }else{
+                            return res.status(200).json(resp2)
+                        }
+                    });
+                }
+            });
+        }catch(err){
+            console.log(err);
+        }
+    },
+
     rekapitulasi: (req, res)=>{
         if(!req.session.sesi){
             res.redirect("/Auth");

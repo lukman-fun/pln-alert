@@ -1,0 +1,19 @@
+mydata+=`<div class="flex border-black text-center text-sm text-black">
+              <div class="py-2 w-10 border-r border-b border-l border-gray-600" style="min-width: 2.5rem;">${index+1}</div>
+              <div class="py-2 w-32 border-r border-b border-gray-600" style="min-width: 8rem;">${item.unit_layanan}</div>
+              <div class="py-2 w-44 border-r border-b border-gray-600" style="min-width: 11rem;">${item.create_at}</div>
+              <div class="py-2 w-52 border-r border-b border-gray-600" style="min-width: 13rem;">${item.nama_pelanggan}</div>
+              <div class="py-2 w-40 border-r border-b border-gray-600" style="min-width: 10rem;">${item.nomor_handphone}</div>
+              <div class="py-2 w-52 border-r border-b border-gray-600" style="min-width: 13rem;">${item.jenis_laporan}</div>
+              <div class="py-2 w-44 border-r border-b border-gray-600" style="min-width: 11rem;" id="timer[${item.id_laporan}]">${ item.update_at }</div>
+              <div class="py-2 w-10 border-r border-b border-gray-600"style="min-width: 2.5rem;">`;
+                if(item.status==0){
+                  mydata+=`<a onclick="return confirm('Apakah Anda Yakin Laporan Ini Sudah Selesai?')" href="${base_url}Laporan_Close/${item.id_laporan}" class="ind border border-green-500" id="ind[${item.id_laporan}]"></a>`;
+                }else if(item.status==1){
+                  mydata+=`<a onclick="return confirm('Apakah Anda Yakin Laporan Ini Sudah Selesai?')" href="${base_url}Laporan_Close/${item.id_laporan}" class="ind bg-green-500" id="ind[${item.id_laporan}]"></a>`;
+                }else if(item.status==2){
+                  mydata+=`<a onclick="return confirm('Apakah Anda Yakin Laporan Ini Sudah Selesai?')" href="${base_url}Laporan_Close/${item.id_laporan}" class="ind bg-yellow-500" id="ind[${item.id_laporan}]"></a>`;
+                }else if(item.status==3){
+                  mydata+=`<a onclick="return confirm('Apakah Anda Yakin Laporan Ini Sudah Selesai?')" href="${base_url}Laporan_Close/${item.id_laporan}" class="ind bg-red-500" id="ind[${item.id_laporan}]"></a>`;
+                }
+              mydata+=`</div>
