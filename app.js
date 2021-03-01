@@ -169,7 +169,7 @@ io.on('connection',async(socket)=>{
                 const model = require("./models/CronLaporan");
                 const d = await model.getJadwal(db);
                 console.log(moment().format("YYYY-MM-DD HH:mm:ss")+"\n"+JSON.stringify(d));
-                await d.forEach(async (item, index)=>{
+                await d.forEach(async (item)=>{
                     const levelWaktu=["30 menit", "45 menit", "60 menit"];
                     const number = numberToWa(item.nomor_handphone);
                     const msg = "Issue : 1 Pelanggan "+item.jenis_laporan+" selama lebih dari "+levelWaktu[item.level-1]+
@@ -225,6 +225,20 @@ io.on('connection',async(socket)=>{
     client.destroy();
     client.initialize();
     });
+
+    // Update Time per Minute
+    await cron.schedule("* * * * *", async()=>{
+        const model = require('./models/CronLaporan');
+        const data=await model.getTimeLaporan(db);
+        await data.forEach(async(item)=>{
+            const time=item.update_at.split(":");
+            const upTime=moment().hour(parseInt(time[0])).minute(parseInt(time[1])+1).second(0).format("HH:mm:ss");
+            await model.updateTimeLaporan(db, item.id_laporan, upTime);
+        });
+        const toUp=await model.getTimeLaporan(db);
+        await socket.emit('upTime', toUp);
+    });
+
 });
 
 // app.post('/send_pesan', async (req, res)=>{

@@ -21,9 +21,13 @@ module.exports = {
 
     updateLaporan: (con, id, level)=>{
         return new Promise((resolve, reject)=>{
-            const upRec=["00:30:00", "00:45:00", "01:00:00"];
+            // const upRec=["00:30:00", "00:45:00", "01:00:00"];
             // const resRec=moment().format("YYYY-MM-DD")+" "+upRec[level-1];
-            con.query(`UPDATE laporan SET status='${level}', update_at='${upRec[level-1]}' WHERE id_laporan='${id}'`, (err, res)=>{
+            // con.query(`UPDATE laporan SET status='${level}', update_at='${upRec[level-1]}' WHERE id_laporan='${id}'`, (err, res)=>{
+            //     if(err) reject(err);
+            //     resolve(res);
+            // });
+            con.query(`UPDATE laporan SET status='${level}' WHERE id_laporan='${id}'`, (err, res)=>{
                 if(err) reject(err);
                 resolve(res);
             });
@@ -31,6 +35,24 @@ module.exports = {
             //     if(err) reject(err);
             //     resolve(res);
             // });
+        });
+    },
+
+    getTimeLaporan: (con)=>{
+        return new Promise((resolve, reject)=>{
+            con.query(`SELECT id_laporan, update_at, status FROM laporan WHERE status!=200`, (err, res)=>{
+                if(err) reject(err);
+                resolve(res);
+            });
+        });
+    },
+
+    updateTimeLaporan(con, id, time){
+        return new Promise((resolve, reject)=>{
+            con.query(`UPDATE laporan SET update_at='${time}' WHERE id_laporan='${id}'`, (err, res)=>{
+                if(err) reject(err);
+                resolve(res);
+            });
         });
     }
 }

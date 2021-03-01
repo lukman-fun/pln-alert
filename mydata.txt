@@ -17,3 +17,84 @@ mydata+=`<div class="flex border-black text-center text-sm text-black">
                   mydata+=`<a onclick="return confirm('Apakah Anda Yakin Laporan Ini Sudah Selesai?')" href="${base_url}Laporan_Close/${item.id_laporan}" class="ind bg-red-500" id="ind[${item.id_laporan}]"></a>`;
                 }
               mydata+=`</div>
+
+
+
+
+
+
+
+
+
+
+
+
+              <script>
+      const base_url=$("#base_url").val();
+      const list=document.getElementById("list");
+      axios.get(base_url+"api_mon")
+      .then(res=>{
+        const data=res.data;
+        var mydata="";
+        data.forEach((item, index)=>{
+          mydata+=`<div class="flex border-black text-center text-sm text-black">
+              <div class="py-2 w-10 border-r border-b border-l border-gray-600" style="min-width: 2.5rem;">${index+1}</div>
+              <div class="py-2 w-32 border-r border-b border-gray-600" style="min-width: 8rem;">${item.unit_layanan}</div>
+              <div class="py-2 w-44 border-r border-b border-gray-600" style="min-width: 11rem;">${item.create_at}</div>
+              <div class="py-2 w-52 border-r border-b border-gray-600" style="min-width: 13rem;">${item.nama_pelanggan}</div>
+              <div class="py-2 w-40 border-r border-b border-gray-600" style="min-width: 10rem;">${item.nomor_handphone}</div>
+              <div class="py-2 w-52 border-r border-b border-gray-600" style="min-width: 13rem;">${item.jenis_laporan}</div>
+              <div class="py-2 w-44 border-r border-b border-gray-600" style="min-width: 11rem;" id="timer[${item.id_laporan}]">${ item.update_at }</div>
+              <div class="py-2 w-10 border-r border-b border-gray-600"style="min-width: 2.5rem;">
+              <a onclick="return confirm('Apakah Anda Yakin Laporan Ini Sudah Selesai?')" href="${base_url}Laporan_Close/${item.id_laporan}" id="ind[${item.id_laporan}]"></a>
+              </div>
+            </div>`;
+        });
+        list.innerHTML=mydata;
+        data.forEach((item)=>{
+          if(item.status==0){
+            document.getElementById(`ind[${item.id_laporan}]`).className="ind border border-green-500";
+          }else if(item.status==1){
+            document.getElementById(`ind[${item.id_laporan}]`).className="ind bg-green-500";
+          }else if(item.status==2){
+            document.getElementById(`ind[${item.id_laporan}]`).className="ind bg-yellow-500";
+          }else if(item.status==3){
+            document.getElementById(`ind[${item.id_laporan}]`).className="ind bg-red-500";
+          }
+
+          var time=item.update_at.split(":");
+          var max=item.update_at.split(":")[2];
+
+          setInterval(()=>{
+            var mytime=moment().hour(parseInt(time[0])).minute(parseInt(time[1])).second(parseInt(time[2]++)).format("HH:mm:ss");
+            document.getElementById(`timer[${item.id_laporan}]`).innerHTML=mytime;
+            max++;
+            if(max==60){
+              axios.post(base_url+"api_mon/"+item.id_laporan, {
+                rectime: moment().hour(parseInt(mytime.split(":")[0])).minute(parseInt(mytime.split(":")[1])).second(parseInt(mytime.split(":")[2])+1).format("HH:mm:ss")
+              })
+              .then(res=>{
+                const redata=res.data[0];
+                console.log(JSON.stringify(redata));
+                if(redata.status==0){
+                  document.getElementById(`ind[${redata.id_laporan}]`).className="ind border border-green-500";
+                }else if(redata.status==1){
+                  document.getElementById(`ind[${redata.id_laporan}]`).className="ind bg-green-500";
+                }else if(redata.status==2){
+                  document.getElementById(`ind[${redata.id_laporan}]`).className="ind bg-yellow-500";
+                }else if(redata.status==3){
+                  document.getElementById(`ind[${redata.id_laporan}]`).className="ind bg-red-500";
+                }
+              })
+              .catch(err=>{
+                alert(err);
+              });
+              max=0;
+            }
+          }, 1000);
+        });
+      })
+      .cacth(err=>{
+        alert(JSON.stringify(err));
+      })
+    </script>

@@ -1,5 +1,6 @@
 .sidebar{
     display: none;
+    transition: all 0.3s;
 }
 
 .bg-based{
@@ -47,5 +48,6 @@
 @media(min-width: 768px){
     .sidebar{
         display: block;
+        transition: all 0.3s;
     }
 }
