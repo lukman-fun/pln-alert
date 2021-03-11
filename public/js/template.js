@@ -24,26 +24,26 @@ $(document).ready(()=>{
 
     //Socket
     // const socket = io.connect('http://localhost:3030/', {path: '/socket.io'});
-    const socket = io();
-    socket.on('msg',(msg)=>{
-        $('#logs').append($('<li class="font-bold">').text(msg));
-    });
+    // const socket = io();
+    // socket.on('msg',(msg)=>{
+    //     $('#logs').append($('<li class="font-bold">').text(msg));
+    // });
 
-    $('#qrcode').hide();
-    socket.on('qrcode',(src)=>{
-        $('#qrcode').attr('src',src);
-        $('#qrcode').show();
-    });
+    // $('#qrcode').hide();
+    // socket.on('qrcode',(src)=>{
+    //     $('#qrcode').attr('src',src);
+    //     $('#qrcode').show();
+    // });
 
-    socket.on('status',(status)=>{
-        const stswa = $("#status-wa");
-        if(status=="0"){
-            stswa.css({"background-color":"red"});
-        }else{
-            stswa.css({"background-color":"green"});
-            $('#qrcode').hide();
-        }
-    });
+    // socket.on('status',(status)=>{
+    //     const stswa = $("#status-wa");
+    //     if(status=="0"){
+    //         stswa.css({"background-color":"red"});
+    //     }else{
+    //         stswa.css({"background-color":"green"});
+    //         $('#qrcode').hide();
+    //     }
+    // });
 
     $("#togle-nav").click((e)=>{
         e.preventDefault();
