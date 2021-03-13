@@ -227,7 +227,7 @@ io.on('connection',async(socket)=>{
     });
 
     // Update Time per Minute
-    await cron.schedule("* * * * *", async()=>{
+    cron.schedule("* * * * *", async()=>{
         const model = require('./models/CronLaporan');
         const data=await model.getTimeLaporan(db);
         await data.forEach(async(item)=>{
